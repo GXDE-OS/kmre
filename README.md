@@ -161,6 +161,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/libkylin-kmre.git
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-apk-installer.git
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-make-image.git
+  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-modules-dkms.git （该组件仅Ubuntu系统下需要）
   ......
 ```
 
@@ -177,7 +178,8 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   ├── kylin-kmre-make-image
   ├── kylin-kmre-manager
   ├── kylin-kmre-window
-  └── libkylin-kmre
+  ├── libkylin-kmre
+  └── kylin-kmre-modules-dkms（仅Ubuntu系统下）
 
   9 directories, 0 files
 ```
@@ -208,47 +210,78 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 
 执行编译命令：
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$ debuild -S -sa
-   dpkg-buildpackage -us -uc -ui -S -sa
+  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$ debuild -j6
+    dpkg-buildpackage -us -uc -ui -j6
   dpkg-buildpackage: info: 源码包 libkylin-kmre
-  dpkg-buildpackage: info: 源码版本 1.3.4
+  dpkg-buildpackage: info: 源码版本 3.0.0.1
   dpkg-buildpackage: info: source distribution v101
   dpkg-buildpackage: info: 源码修改者 lixiang <lixiang@kylinos.cn>
-   dpkg-source --before-build .
-   fakeroot debian/rules clean
+  dpkg-source --before-build .
+  dpkg-buildpackage: info: 主机架构 amd64
+  fakeroot debian/rules clean
   dh  clean --parallel
-     dh_auto_clean -O--parallel
-  	make -j8 clean
+    dh_auto_clean -O--parallel
+    make -j6 clean
   make[1]: 进入目录“/build1/lixiang/kmre-host-src/libkylin-kmre”
   rm -f *.o
   rm -f KmreCore.pb.*
   rm -f libkmre.so
   make[1]: 离开目录“/build1/lixiang/kmre-host-src/libkylin-kmre”
-     dh_clean -O--parallel
-   dpkg-source -b .
+    dh_clean -O--parallel
+  dpkg-source -b .
   dpkg-source: info: using source format '3.0 (native)'
-  dpkg-source: info: building libkylin-kmre in libkylin-kmre_1.3.4.tar.xz
-  dpkg-source: info: building libkylin-kmre in libkylin-kmre_1.3.4.dsc
-   dpkg-genbuildinfo --build=source
-   dpkg-genchanges -sa --build=source >../libkylin-kmre_1.3.4_source.changes
+  dpkg-source: info: building libkylin-kmre in libkylin-kmre_3.0.0.1.tar.xz
+  dpkg-source: info: building libkylin-kmre in libkylin-kmre_3.0.0.1.dsc
+  debian/rules build
+  dh  build --parallel
+    dh_update_autotools_config -O--parallel
+    dh_auto_configure -O--parallel
+    dh_auto_build -O--parallel
+    make -j6
+  make[1]: 进入目录“/build1/lixiang/kmre-host-src/libkylin-kmre”
+  protoc -I=./ --cpp_out=./ KmreCore.proto
+  g++ -fPIC -shared main.cc kmre_socket.cc KmreCore.pb.cc -std=c++14 -fpermissive -g -o libkmre.so `pkg-config --cflags --libs protobuf` -ldl
+  make[1]: 离开目录“/build1/lixiang/kmre-host-src/libkylin-kmre”
+    dh_auto_test -O--parallel
+  fakeroot debian/rules binary
+  dh  binary --parallel
+    dh_testroot -O--parallel
+    dh_prep -O--parallel
+    dh_auto_install -O--parallel
+    dh_install -O--parallel
+    dh_installdocs -O--parallel
+    dh_installchangelogs -O--parallel
+    dh_installinit -O--parallel
+    dh_perl -O--parallel
+    dh_link -O--parallel
+    dh_strip_nondeterminism -O--parallel
+    dh_compress -O--parallel
+    dh_fixperms -O--parallel
+    dh_missing -O--parallel
+    dh_strip -O--parallel
+    dh_makeshlibs -O--parallel
+    dh_shlibdeps -O--parallel
+    dh_installdeb -O--parallel
+    dh_gencontrol -O--parallel
+    dh_md5sums -O--parallel
+    dh_builddeb -O--parallel
+  dpkg-deb: 正在 '../libkylin-kmre_3.0.0.1_amd64.deb' 中构建软件包 'libkylin-kmre'。
+  dpkg-deb: 正在 'debian/.debhelper/scratch-space/build-libkylin-kmre/libkylin-kmre-dbgsym_3.0.0.1_amd64.deb' 中构建软件包 'libkylin-kmre-dbgsym'。
+    Renaming libkylin-kmre-dbgsym_3.0.0.1_amd64.deb to libkylin-kmre-dbgsym_3.0.0.1_amd64.ddeb
+  dpkg-genbuildinfo
+  dpkg-genchanges  >../libkylin-kmre_3.0.0.1_amd64.changes
   dpkg-genchanges: info: 上传数据中包含完整的原始代码
-   dpkg-source --after-build .
-  dpkg-buildpackage: info: source-only upload: Debian-native package
+  dpkg-source --after-build .
+  dpkg-buildpackage: info: full upload; Debian-native package (full source is included)
   Now signing changes and any dsc files...
-   signfile dsc libkylin-kmre_1.3.4.dsc lixiang <lixiang@kylinos.cn>
-  gpg: 警告：家目录‘/home/lixiang/.gnupg’的权限位不安全
-  gpg: 警告：家目录‘/home/lixiang/.gnupg’的权限位不安全
+  signfile dsc libkylin-kmre_3.0.0.1.dsc B6C2001D583687B2AAFF54A287F699B85704752E
 
-   fixup_buildinfo libkylin-kmre_1.3.4.dsc libkylin-kmre_1.3.4_source.buildinfo
-   signfile buildinfo libkylin-kmre_1.3.4_source.buildinfo lixiang <lixiang@kylinos.cn>
-  gpg: 警告：家目录‘/home/lixiang/.gnupg’的权限位不安全
-  gpg: 警告：家目录‘/home/lixiang/.gnupg’的权限位不安全
+  fixup_buildinfo libkylin-kmre_3.0.0.1.dsc libkylin-kmre_3.0.0.1_amd64.buildinfo
+  signfile buildinfo libkylin-kmre_3.0.0.1_amd64.buildinfo B6C2001D583687B2AAFF54A287F699B85704752E
 
-   fixup_changes dsc libkylin-kmre_1.3.4.dsc libkylin-kmre_1.3.4_source.changes
-   fixup_changes buildinfo libkylin-kmre_1.3.4_source.buildinfo libkylin-kmre_1.3.4_source.changes
-   signfile changes libkylin-kmre_1.3.4_source.changes lixiang <lixiang@kylinos.cn>
-  gpg: 警告：家目录‘/home/lixiang/.gnupg’的权限位不安全
-  gpg: 警告：家目录‘/home/lixiang/.gnupg’的权限位不安全
+  fixup_changes dsc libkylin-kmre_3.0.0.1.dsc libkylin-kmre_3.0.0.1_amd64.changes
+  fixup_changes buildinfo libkylin-kmre_3.0.0.1_amd64.buildinfo libkylin-kmre_3.0.0.1_amd64.changes
+  signfile changes libkylin-kmre_3.0.0.1_amd64.changes B6C2001D583687B2AAFF54A287F699B85704752E
 
   Successfully signed dsc, buildinfo, changes files
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$
@@ -259,31 +292,21 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 
 ####  <font face="Courier New">3.3 将Android镜像包转换成deb包
 ```bash
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cd kylin-kmre-image-data-x86（x86的64位平台使用kylin-kmre-image-data-x86仓库，arm64平台使用kylin-kmre-image-data仓库）
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cd kylin-kmre-image-data-x64/amd64
-
-拷贝之前编译生成的Android镜像文件system.sfs到当前路径下，若体系架构是arm64，则amd64变成arm64。
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86/amd64$ cd ../
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86/$ sudo make
-
-make操作执行完成后，会在当前目录下生成kmre3_'tag_date-time'.tar，例如 kmre3_v3.0-240423.10_2024.04.23-19.11.tar，其中tag为v3.0-240423.10，date为2024.04.23，time为19.11。
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86/$ cp kmre3_v3.0-240423.10_2024.04.23-19.11.tar ./data/amd64/kmre-container-image.tar   (把上面的kmre3_v3.0-240423.10_2024.04.23-19.11.tar复制并改名到data/amd64/kmre-container-image.tar)
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86/amd64$ vim kmre.conf
-[image]
-repo=kmre2
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cd kylin-kmre-make-image
+拷贝之前编译生成的Android镜像文件system.sfs到当前路径下。
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ sudo make
+make完成后会在当前目录下生成kmre3_'tag_date-time'.tar镜像压缩包，例如：kmre3_v3.0-240423.10_2024.04.23-19.11.tar，tag为v3.0-240423.10，date为2024.04.23，time为19.11 。
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cd ../kylin-kmre-image-data-x86（x86的64位平台使用kylin-kmre-image-data-x86仓库，arm64平台使用kylin-kmre-image-data仓库）
+拷贝上一步生成的kmre3_'tag_date-time'.tar镜像压缩包到当前路径下的“data/amd64(arm64平台为data/arm64)”目录并重命名为“kmre-container-image.tar”。
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ vi data/kmre.conf
+[image]‘’；
+repo=kmre3
 tag=v3.0-240423.10
-
-上一步操作是根据实际情况更新配置文件kmre.conf中的tag值。
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86/amd64$ cd ../
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ dch -n（建议把对应的tag去除v做成deb的版本号，如kylin-kmre-image-data-x64 (3.0-231108.10) xxx，然后保存）
-
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debuild -S -sa  (开始编译，待编译完成，则在上一级目录下生成对应的Android镜像的deb包)
+上一步更新“data/kmre.conf”配置文件中的tag标签，例如：tag=v3.0-240423.10
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ dch -n
+上一步更新版本号，建议把对应的tag去除v做成deb的版本号，如kylin-kmre-image-data-x64 (3.0-231108.10) xxx。
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debuild -j6
+执行完毕后会在上一级目录下生成对应的Android镜像的deb包。
 ```
 
 -----
@@ -294,7 +317,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debui
 ####  <font face="Courier New">4.1 安装deb包
 
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ sudo dpkg -i kylin-kmre-daemon_3.0.0.0-0k0.4_amd64.deb kylin-kmre-display-control_3.0.0.0-0k0.1_amd64.deb kylin-kmre-image-data_3.0-231108.10_amd64.deb kylin-kmre-manager_3.0.0.0-0k0.7_amd64.deb kylin-kmre-window_3.0.0.0-0k1.0_amd64.deb libkylin-kmre_3.0.0.0-0k0.1_amd64.deb libkylin-kmre-emugl_3.0.0.0-0k0.1_amd64.deb
+  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ sudo dpkg -i kylin-kmre-daemon_3.0.0.0-0k0.4_amd64.deb kylin-kmre-display-control_3.0.0.0-0k0.1_amd64.deb kylin-kmre-image-data_3.0-231108.10_amd64.deb kylin-kmre-manager_3.0.0.0-0k0.7_amd64.deb kylin-kmre-window_3.0.0.0-0k1.0_amd64.deb libkylin-kmre_3.0.0.0-0k0.1_amd64.deb libkylin-kmre-emugl_3.0.0.0-0k0.1_amd64.deb kylin-kmre-modules-dkms_3.0.0.0-0k0.1_amd64.deb（仅Ubuntu系统下）
 ```
 
 ####  <font face="Courier New">4.2 重启系统
