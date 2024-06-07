@@ -161,7 +161,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/libkylin-kmre.git
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-apk-installer.git
   lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-make-image.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-modules-dkms.git （该组件仅Ubuntu系统下需要）
+  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-modules-dkms.git （该组件仅Ubuntu系统下需要，Ubuntu20.04版本下使用kmre-kernel-modules-ubuntu-20.04分支，Ubuntu22.04版本下使用kmre-kernel-modules-ubuntu-22.04分支）
   ......
 ```
 
@@ -178,8 +178,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   ├── kylin-kmre-make-image
   ├── kylin-kmre-manager
   ├── kylin-kmre-window
-  ├── libkylin-kmre
-  └── kylin-kmre-modules-dkms（仅Ubuntu系统下）
+  └── libkylin-kmre
 
   9 directories, 0 files
 ```
@@ -317,7 +316,8 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debui
 ####  <font face="Courier New">4.1 安装deb包
 
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ sudo dpkg -i kylin-kmre-daemon_3.0.0.0-0k0.4_amd64.deb kylin-kmre-display-control_3.0.0.0-0k0.1_amd64.deb kylin-kmre-image-data_3.0-231108.10_amd64.deb kylin-kmre-manager_3.0.0.0-0k0.7_amd64.deb kylin-kmre-window_3.0.0.0-0k1.0_amd64.deb libkylin-kmre_3.0.0.0-0k0.1_amd64.deb libkylin-kmre-emugl_3.0.0.0-0k0.1_amd64.deb kylin-kmre-modules-dkms_3.0.0.0-0k0.1_amd64.deb（仅Ubuntu系统下）
+  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ sudo dpkg -i kylin-kmre-daemon_3.0.0.0-0k0.4_amd64.deb kylin-kmre-display-control_3.0.0.0-0k0.1_amd64.deb kylin-kmre-image-data_3.0-231108.10_amd64.deb kylin-kmre-manager_3.0.0.0-0k0.7_amd64.deb kylin-kmre-window_3.0.0.0-0k1.0_amd64.deb libkylin-kmre_3.0.0.0-0k0.1_amd64.deb libkylin-kmre-emugl_3.0.0.0-0k0.1_amd64.deb
+  注：Ubuntu系统下还需额外安装kylin-kmre-modules-dkms_3.0.0.0-0k0.1_amd64.deb这个包
 ```
 
 ####  <font face="Courier New">4.2 重启系统
