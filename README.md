@@ -79,12 +79,10 @@
 <font face="Courier New">下载完成后的目录结构如下:（或者tree -L 1 kmre-aosp-src 查看）
 ```bash
   lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$ ls
-  Android.bp      compatibility  frameworks       Makefile          system
-  art             cts            hardware         packages          test
-  bionic          dalvik         kernel           pdk               toolchain
-  bootable        development    kmre             platform_testing  tools
-  bootstrap.bash  device         libcore          prebuilts         vendor
-  build           external       libnativehelper  sdk
+  Android.bp  bootstrap.bash  dalvik       frameworks  libcore          pdk               system
+  art         build           development  hardware    libnativehelper  platform_testing  test
+  bionic      compatibility   device       kernel      Makefile         prebuilts         toolchain
+  bootable    cts             external     kmre        packages         sdk               tools
   lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$
 ```
 
@@ -96,26 +94,24 @@
   ============================================
   PLATFORM_VERSION_CODENAME=REL
   PLATFORM_VERSION=11
-  TARGET_PRODUCT=e2000
-  TARGET_BUILD_VARIANT=userdebug
+  TARGET_PRODUCT=kmre_x86_64
+  TARGET_BUILD_VARIANT=user
   TARGET_BUILD_TYPE=release
-  TARGET_ARCH=arm64
-  TARGET_ARCH_VARIANT=armv8-a
-  TARGET_CPU_VARIANT=generic
-  TARGET_2ND_ARCH=arm
-  TARGET_2ND_ARCH_VARIANT=armv8-a
-  TARGET_2ND_CPU_VARIANT=generic
+  TARGET_ARCH=x86_64
+  TARGET_ARCH_VARIANT=x86_64
+  TARGET_2ND_ARCH=x86
+  TARGET_2ND_ARCH_VARIANT=x86_64
   HOST_ARCH=x86_64
   HOST_2ND_ARCH=x86
   HOST_OS=linux
-  HOST_OS_EXTRA=Linux-5.15.0-56-generic-x86_64-Ubuntu-20.04.5-LTS
+  HOST_OS_EXTRA=Linux-5.15.0-105-generic-x86_64-Ubuntu-20.04.4-LTS
   HOST_CROSS_OS=windows
   HOST_CROSS_ARCH=x86
   HOST_CROSS_2ND_ARCH=x86_64
   HOST_BUILD_TYPE=release
-  BUILD_ID=RQ2A.210505.003
+  BUILD_ID=RP1A.201005.006
   OUT_DIR=out
-  PRODUCT_SOONG_NAMESPACES=device/generic/goldfish device/generic/goldfish-opengl
+  PRODUCT_SOONG_NAMESPACES=device/generic/goldfish device/generic/goldfish-opengl hardware/google/camera hardware/google/camera/devices/EmulatedCamera device/generic/goldfish device/generic/goldfish-opengl
   ============================================
 ```
 如果编译ARM版本，则使用`lunch kmre_arm64-user`
