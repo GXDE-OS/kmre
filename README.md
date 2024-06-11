@@ -71,7 +71,8 @@
 ```bash
   mkdir kmre-aosp-src
   cd kmre-aosp-src
-  repo init -u git@gitee.com:openkylin/platform_manifest.git -b kmre-opensource-devel
+  repo init -u https://gitee.com/openkylin/platform_manifest.git -b kmre-opensource-devel
+  （或：repo init -u git@gitee.com:openkylin/platform_manifest.git -b kmre-opensource-devel ）
   repo sync -c --no-repo-verify --no-tags --no-clone-bundle --force-sync -j8
 ```
 
