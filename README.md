@@ -79,18 +79,17 @@
 
 <font face="Courier New">下载完成后的目录结构如下:（或者tree -L 1 kmre-aosp-src 查看）
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$ ls
+  kmre-aosp-src$ ls
   Android.bp  bootstrap.bash  dalvik       frameworks  libcore          pdk               system
   art         build           development  hardware    libnativehelper  platform_testing  test
   bionic      compatibility   device       kernel      Makefile         prebuilts         toolchain
   bootable    cts             external     kmre        packages         sdk               tools
-  lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$
 ```
 
 #### <font face="Courier New">2.2 lunch编译项目
 
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$ source build/envsetup.sh && lunch kmre_x86_64-user
+  kmre-aosp-src$ source build/envsetup.sh && lunch kmre_x86_64-user
 
   ============================================
   PLATFORM_VERSION_CODENAME=REL
@@ -119,20 +118,19 @@
 
 #### <font face="Courier New">2.2 安卓源码编译
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$ make img -j12
+  kmre-aosp-src$ make img -j12
 ```
 
 整个编译过程耗时较长，请耐心等待。编译成功后，可以在 out/target/product/kmre_x86_64 目录下查看到编译生成的相关镜像文件system.sfs。如果是ARM平台，则镜像路径为 out/target/product/kmre_arm64/system.sfs。如下：
 
 ```bash
-lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src$ cd out/target/product/kmre_x86_64/
-lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$ ls
+kmre-aosp-src$ cd out/target/product/kmre_x86_64/
+kmre-aosp-src/out/target/product/kmre_x86_64$ ls
 android-info.txt       build_thumbprint.txt  gen                        obj                       symbols
 apex                   clean_steps.mk        installed-files.json       obj_x86                   system
 appcompat              data                  installed-files-root.json  previous_build_config.mk  system.sfs
 build_fingerprint.txt  debug_ramdisk         installed-files-root.txt   recovery                  testcases
 build.prop             fake_packages         installed-files.txt        root
-lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 ```
 ----
 
@@ -149,16 +147,16 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   sudo apt install git devscripts
   mkdir kmre-host-src
   cd kmre-host-src
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-manager.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-window.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-daemon.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-emugl.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-display-control.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-image-data-x64.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/libkylin-kmre.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-apk-installer.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-make-image.git
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ git clone https://gitee.com/openkylin/kylin-kmre-modules-dkms.git （该组件仅Ubuntu系统下需要，Ubuntu20.04版本下使用kmre-kernel-modules-ubuntu-20.04分支，Ubuntu22.04版本下使用kmre-kernel-modules-ubuntu-22.04分支）
+  git clone https://gitee.com/openkylin/kylin-kmre-manager.git
+  git clone https://gitee.com/openkylin/kylin-kmre-window.git
+  git clone https://gitee.com/openkylin/kylin-kmre-daemon.git
+  git clone https://gitee.com/openkylin/kylin-kmre-emugl.git
+  git clone https://gitee.com/openkylin/kylin-kmre-display-control.git
+  git clone https://gitee.com/openkylin/kylin-kmre-image-data-x64.git
+  git clone https://gitee.com/openkylin/libkylin-kmre.git
+  git clone https://gitee.com/openkylin/kylin-kmre-apk-installer.git
+  git clone https://gitee.com/openkylin/kylin-kmre-make-image.git
+  git clone https://gitee.com/openkylin/kylin-kmre-modules-dkms.git （该组件仅Ubuntu系统下需要，Ubuntu20.04版本下使用kmre-kernel-modules-ubuntu-20.04分支，Ubuntu22.04版本下使用kmre-kernel-modules-ubuntu-22.04分支）
   ......
 ```
 
@@ -184,7 +182,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 
 先解决编译依赖问题，通过如下命令可以查询到对应源码包在系统上缺失的编译依赖包：
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$ debuild -S
+  kmre-host-src/libkylin-kmre$ debuild -S
    dpkg-buildpackage -us -uc -ui -S
   dpkg-buildpackage: info: 源码包 libkylin-kmre
   dpkg-buildpackage: info: 源码版本 1.3.4
@@ -196,7 +194,6 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   dpkg-buildpackage: 警告: (使用 -d 参数来忽略)
   debuild: fatal error at line 1182:
   dpkg-buildpackage -us -uc -ui -S failed
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$
 ```
 
 根据缺失依赖信息，解决编译依赖问题：
@@ -206,7 +203,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 
 执行编译命令：
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$ debuild -j6
+  kmre-host-src/libkylin-kmre$ debuild -j6
     dpkg-buildpackage -us -uc -ui -j6
   dpkg-buildpackage: info: 源码包 libkylin-kmre
   dpkg-buildpackage: info: 源码版本 3.0.0.1
@@ -280,7 +277,6 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
   signfile changes libkylin-kmre_3.0.0.1_amd64.changes B6C2001D583687B2AAFF54A287F699B85704752E
 
   Successfully signed dsc, buildinfo, changes files
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/libkylin-kmre$
 ```
 
 执行编译命令编译完成后，在上一级目录生成对应的deb包。所有源码都以上述方式解决依赖和编程生成deb包。
@@ -288,24 +284,31 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 
 ####  <font face="Courier New">3.3 将Android镜像包转换成deb包
 ```bash
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cp ${path_to_android_image} ~/system.sfs
+kmre-host-src$ cp ${path_to_android_image} ~/system.sfs
 上一步将之前编译生成的Android镜像文件"system.sfs"拷贝到当前用户$HOME路径下。
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cd kylin-kmre-make-image
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ sudo make
+
+kmre-host-src$ cd kylin-kmre-make-image
+
+kylin-kmre-make-image$ sudo make
 make完成后会在当前目录下生成kmre3_'tag_date-time'.tar镜像压缩包，例如：kmre3_v3.0-240423.10_2024.04.23-19.11.tar，tag为v3.0-240423.10，date为2024.04.23，time为19.11 。
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cp kmre3_*.tar ../kylin-kmre-image-data-x86/data/amd64/kmre-container-image.tar
+
+kylin-kmre-make-image$ cp kmre3_*.tar ../kylin-kmre-image-data-x86/data/amd64/kmre-container-image.tar
 注：如果是arm64平台，则使用以下命令进行拷贝：
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cp kmre3_*.tar ../kylin-kmre-image-data/data/arm64/kmre-container-image.tar
+kylin-kmre-make-image$ cp kmre3_*.tar ../kylin-kmre-image-data/data/arm64/kmre-container-image.tar
 上一步命令将生成的kmre3_'tag_date-time'.tar镜像压缩包拷贝到deb制作工具路径下并重命名为“kmre-container-image.tar”。
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cd ../kylin-kmre-image-data-x86 （arm64平台为kylin-kmre-image-data）
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ vi data/kmre.conf
+
+kylin-kmre-make-image$ cd ../kylin-kmre-image-data-x86 （arm64平台为kylin-kmre-image-data）
+
+kylin-kmre-image-data-x86$ vi data/kmre.conf
 [image]‘’；
 repo=kmre3
 tag=v3.0-240423.10
 上一步更新“data/kmre.conf”配置文件中的tag标签，例如：tag=v3.0-240423.10
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ dch -n （或者直接手动修改debian/changelog文件）
+
+kylin-kmre-image-data-x86$ dch -n （或者直接手动修改debian/changelog文件）
 上一步更新版本号，建议把对应的tag去除v做成deb的版本号，如kylin-kmre-image-data-x64 (3.0-231108.10) xxx。
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debuild -j6
+
+kylin-kmre-image-data-x86$ debuild -j6
 执行完毕后会在上一级目录下生成对应的Android镜像的deb包。
 ```
 
@@ -317,7 +320,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debui
 ####  <font face="Courier New">4.1 安装deb包
 
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ sudo dpkg -i kylin-kmre-daemon_3.0.0.0-0k0.4_amd64.deb kylin-kmre-display-control_3.0.0.0-0k0.1_amd64.deb kylin-kmre-image-data_3.0-231108.10_amd64.deb kylin-kmre-manager_3.0.0.0-0k0.7_amd64.deb kylin-kmre-window_3.0.0.0-0k1.0_amd64.deb libkylin-kmre_3.0.0.0-0k0.1_amd64.deb libkylin-kmre-emugl_3.0.0.0-0k0.1_amd64.deb
+  kmre-host-src$ sudo dpkg -i kylin-kmre-daemon_3.0.0.0-0k0.4_amd64.deb kylin-kmre-display-control_3.0.0.0-0k0.1_amd64.deb kylin-kmre-image-data_3.0-231108.10_amd64.deb kylin-kmre-manager_3.0.0.0-0k0.7_amd64.deb kylin-kmre-window_3.0.0.0-0k1.0_amd64.deb libkylin-kmre_3.0.0.0-0k0.1_amd64.deb libkylin-kmre-emugl_3.0.0.0-0k0.1_amd64.deb
   注：Ubuntu系统下还需额外安装kylin-kmre-modules-dkms_3.0.0.0-0k0.1_amd64.deb这个包
 ```
 
@@ -325,7 +328,7 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debui
 保存用户文件后，再重启系统。
 
 ```bash
-  lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ sudo reboot
+  kmre-host-src$ sudo reboot
 ```
 
 ####  <font face="Courier New">4.3 启动KMRE环境
