@@ -291,18 +291,22 @@ lixiang@kylin-pc3:/build1/lixiang/kmre-aosp-src/out/target/product/kmre_x86_64$
 
 ####  <font face="Courier New">3.3 将Android镜像包转换成deb包
 ```bash
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cp ${path_to_android_image} ~/system.sfs
+上一步将之前编译生成的Android镜像文件"system.sfs"拷贝到当前用户$HOME路径下。
 lixiang@kylin-pc3:/build1/lixiang/kmre-host-src$ cd kylin-kmre-make-image
-拷贝之前编译生成的Android镜像文件system.sfs到当前路径下。
 lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ sudo make
 make完成后会在当前目录下生成kmre3_'tag_date-time'.tar镜像压缩包，例如：kmre3_v3.0-240423.10_2024.04.23-19.11.tar，tag为v3.0-240423.10，date为2024.04.23，time为19.11 。
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cd ../kylin-kmre-image-data-x86（x86的64位平台使用kylin-kmre-image-data-x86仓库，arm64平台使用kylin-kmre-image-data仓库）
-拷贝上一步生成的kmre3_'tag_date-time'.tar镜像压缩包到当前路径下的“data/amd64(arm64平台为data/arm64)”目录并重命名为“kmre-container-image.tar”。
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cp kmre3_*.tar ../kylin-kmre-image-data-x86/data/amd64/kmre-container-image.tar
+注：如果是arm64平台，则使用以下命令进行拷贝：
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cp kmre3_*.tar ../kylin-kmre-image-data/data/arm64/kmre-container-image.tar
+上一步命令将生成的kmre3_'tag_date-time'.tar镜像压缩包拷贝到deb制作工具路径下并重命名为“kmre-container-image.tar”。
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-make-image$ cd ../kylin-kmre-image-data-x86 （arm64平台为kylin-kmre-image-data）
 lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ vi data/kmre.conf
 [image]‘’；
 repo=kmre3
 tag=v3.0-240423.10
 上一步更新“data/kmre.conf”配置文件中的tag标签，例如：tag=v3.0-240423.10
-lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ dch -n
+lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ dch -n （或者直接手动修改debian/changelog文件）
 上一步更新版本号，建议把对应的tag去除v做成deb的版本号，如kylin-kmre-image-data-x64 (3.0-231108.10) xxx。
 lixiang@kylin-pc3:/build1/lixiang/kmre-host-src/kylin-kmre-image-data-x86$ debuild -j6
 执行完毕后会在上一级目录下生成对应的Android镜像的deb包。
