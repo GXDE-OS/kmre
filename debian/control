@@ -7,35 +7,17 @@ Standards-Version: 4.4.1
 Homepage: 
 
 Package: kmre
-Architecture: amd64
+Architecture: amd64 arm64
 Maintainer: lixiang <lixiang@kylinos.cn>
 Depends: 
  kylin-kmre-daemon, 
  kylin-kmre-display-control, 
  libkylin-kmre-emugl, 
- kylin-kmre-image-data-x64, 
- kylin-kmre-image-update-x64, 
- kylin-kmre-manager, 
- kylin-kmre-window, 
- libkylin-kmre, 
- docker.io, 
- haveged, 
- python3
-Section: utils
-Priority: optional
-Description: kmre.
-Searchkeyword: kmre,
-
-Package: kmre
-Architecture: arm64
-Maintainer: lixiang <lixiang@kylinos.cn>
-Depends: 
- kylin-kmre-daemon, 
- kylin-kmre-display-control, 
- libkylin-kmre-emugl, 
- kylin-kmre-image-data, 
- kylin-kmre-image-update, 
- kylin-kmre-image-update-kunpeng920, 
+ kylin-kmre-image-data-x64 [amd64], 
+ kylin-kmre-image-update-x64 [amd64], 
+ kylin-kmre-image-data [arm64], 
+ kylin-kmre-image-update [arm64], 
+ kylin-kmre-image-update-kunpeng920 [arm64], 
  kylin-kmre-manager, 
  kylin-kmre-window, 
  libkylin-kmre, 
