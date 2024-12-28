@@ -23,7 +23,8 @@ Depends:
  libkylin-kmre, 
  docker.io, 
  haveged, 
- python3
+ python3,
+ kylin-kmre-modules-dkms
 Section: utils
 Priority: optional
 Description: kmre.
