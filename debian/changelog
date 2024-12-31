@@ -1,3 +1,10 @@
+kmre (3.0.0.0gxde1) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * 依赖 kmre-apk-installer
+
+ -- gfdgd_xi <3025613752@qq.com>  Tue, 31 Dec 2024 19:42:43 +0800
+
 kmre (3.0.0.0-0k0.6) nile; urgency=medium
 
   * Initial Release.

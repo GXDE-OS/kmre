@@ -24,7 +24,8 @@ Depends:
  docker.io, 
  haveged, 
  python3,
- kylin-kmre-modules-dkms
+ kylin-kmre-modules-dkms,
+ kmre-apk-installer
 Section: utils
 Priority: optional
 Description: kmre.
