@@ -1,4 +1,5 @@
 #!/bin/bash
+# Kmre 构建脚本
 echo ">>>>> 检测是否满足构建/运行要求"
 #cd "$(dirname $0)"
 if [[ ! -f /usr/bin/apt ]]; then
