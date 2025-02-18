@@ -10,6 +10,7 @@
 - 支持通过 CLI 安装或卸载 apk 应用，并定义相应的返回值方便 deb 打包  
 - 支持双击 apk 一键安装应用  
 - 将 Arm 翻译层更换为 libhoudini，提升应用兼容性
+- 接入 GXDE 构建系统
 
 ![Kmre](img/kmre.png)  
 ![Kmre设置](img/kmre-setting.png)  
@@ -45,3 +46,4 @@ https://gitee.com/GXDE-OS/kylin-kmre-display-control
 https://gitee.com/GXDE-OS/kylin-kmre-daemon  
 https://gitee.com/GXDE-OS/kylin-kmre-modules-dkms  
 https://gitee.com/GXDE-OS/libkylin-kmre  
+https://gitee.com/GXDE-OS/kylin-kmre-image-data-x64  
