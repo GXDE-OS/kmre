@@ -61,7 +61,7 @@ if [[ $? != 0 ]]; then
     exit 1
 fi
 # 开始构建
-set +e
+set -e
 mkdir -pv build-temp
 cd build-temp
 echo ">>>>> 安装所需基础依赖"
@@ -76,14 +76,14 @@ for i in ${kmre_git_repo[@]}; do
     repo_name=$(basename $i)
     echo ">>> 构建包 $repo_name"
     echo ">> 拉取 $repo_name 源码"
-    git clone $i --depth=1
+    git clone $i --depth=1 | true
     echo ">> 安装 $repo_name 依赖包"
     cd $repo_name
-    rm ../*dbg*.deb -v
+    rm -rfv ../*dbg*.deb
     sudo apt install ../*.deb -y --allow-downgrades
     sudo apt build-dep . -y --allow-downgrades
     echo ">> 构建 $repo_name deb 包"
-    dpkg-buildpackage -b
+    dpkg-buildpackage -b -nc
     cd ..
 done
 echo ">>>>> 安装 kmre"
