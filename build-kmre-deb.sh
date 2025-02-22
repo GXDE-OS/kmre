@@ -1,5 +1,23 @@
 #!/bin/bash
 # Kmre 构建脚本
+
+# $1: 包名
+# return: url
+function getGXDEPackageUrl() {
+    url=()
+    for i in ${gxde_repo_list[@]}; do
+        if [[ $i =~ "/$1/" ]]; then
+            url+=($i)
+        fi
+    done
+    url_enter=()
+    for i in ${url[@]}; do
+        url_enter+=("$i\n")
+    done
+    url=$(echo -e ${url_enter[@]} | sort -r)
+    firstUrl=${url[0]}
+    echo "${gxde_repo_url}/${firstUrl}"
+}
 echo ">>>>> 检测是否满足构建/运行要求"
 #cd "$(dirname $0)"
 if [[ ! -f /usr/bin/apt ]]; then
@@ -9,39 +27,8 @@ fi
 # 判断发行版
 arch=$(dpkg --print-architecture)
 kernel_version=$(uname -r)
-amd64_array=(
-    https://mirrors.sdu.edu.cn/GXDE/gxde-os/bixie/k/kylin-kmre-image-data-x64/kylin-kmre-image-data-x64_3.0-231108.10_amd64.deb
-    https://mirrors.sdu.edu.cn/GXDE/gxde-os/bixie/k/kylin-kmre-image-update-x64/kylin-kmre-image-update-x64_3.0-231108.10+231108.12_amd64.deb
-)
-arm64_array=(
-    https://mirrors.sdu.edu.cn/GXDE/gxde-os/bixie/k/kylin-kmre-image-data/kylin-kmre-image-data_3.0-240731.10_arm64.deb
-    https://mirrors.sdu.edu.cn/GXDE/gxde-os/bixie/k/kylin-kmre-image-update-kunpeng920/kylin-kmre-image-update-kunpeng920_3.0-240731.10+240731.11_arm64.deb
-    https://mirrors.sdu.edu.cn/GXDE/gxde-os/bixie/k/kylin-kmre-image-update/kylin-kmre-image-update_3.0-240731.10+240731.11_arm64.deb
-)
-kmre_git_repo=(
-    https://gitee.com/GXDE-OS/kylin-kmre-emugl
-    https://gitee.com/GXDE-OS/kylin-kmre-display-control
-    https://gitee.com/GXDE-OS/libkylin-kmre
-    https://gitee.com/GXDE-OS/kylin-kmre-manager
-    https://gitee.com/GXDE-OS/kylin-kmre-daemon
-    https://gitee.com/GXDE-OS/kylin-kmre-window
-    https://gitee.com/GXDE-OS/kylin-kmre-apk-installer
-    https://gitee.com/GXDE-OS/kylin-kmre-modules-dkms
-    https://gitee.com/GXDE-OS/kmre
-)
-echo 当前CPU架构：$arch
-case $arch in
-    "amd64")
-        image_array=${amd64_array[@]}
-    ;;
-    "arm64")
-        image_array=${arm64_array[@]}
-    ;;
-    *)
-        echo 不支持该架构
-        exit 1
-    ;;
-esac
+gxde_repo_url="https://repo.gxde.top/gxde-os/bixie/"
+gxde_repo_list=$(curl "$gxde_repo_url/Packages")
 
 if [[ ! -f /usr/src/linux-headers-${kernel_version}/Module.symvers ]]; then
     echo 无法找到 linux-headers 包，无法继续，需安装后才可进行后续操作
@@ -60,13 +47,46 @@ if [[ $? != 0 ]]; then
     echo "    + https://salsa.debian.org/kernel-team/linux/-/blob/debian/latest/debian/patches/debian/export-symbols-needed-by-android-drivers.patch"
     exit 1
 fi
+
+kmre_git_repo=(
+    https://gitee.com/GXDE-OS/kylin-kmre-emugl
+    https://gitee.com/GXDE-OS/kylin-kmre-display-control
+    https://gitee.com/GXDE-OS/libkylin-kmre
+    https://gitee.com/GXDE-OS/kylin-kmre-manager
+    https://gitee.com/GXDE-OS/kylin-kmre-daemon
+    https://gitee.com/GXDE-OS/kylin-kmre-window
+    https://gitee.com/GXDE-OS/kylin-kmre-apk-installer
+    https://gitee.com/GXDE-OS/kylin-kmre-modules-dkms
+    https://gitee.com/GXDE-OS/kmre
+)
+echo 当前CPU架构：$arch
+case $arch in
+    "amd64")
+        image_array=(
+            $(getGXDEPackageUrl kylin-kmre-image-data-x64)
+            $(getGXDEPackageUrl kylin-kmre-image-update-x64)
+        )
+    ;;
+    "arm64")
+        image_array=(
+            $(getGXDEPackageUrl kylin-kmre-image-data)
+            $(getGXDEPackageUrl kylin-kmre-image-update)
+            $(getGXDEPackageUrl kylin-kmre-image-update-kunpeng920)
+        )
+    ;;
+    *)
+        echo 不支持该架构
+        exit 1
+    ;;
+esac
+
 # 开始构建
 set +e
 mkdir -pv build-temp
 cd build-temp
 echo ">>>>> 安装所需基础依赖"
 sudo apt update
-sudo apt install git aria2 dpkg-dev -y --allow-downgrades
+sudo apt install git aria2 dpkg-dev curl -y --allow-downgrades
 echo ">>>>> 下载 Android Image"
 for i in ${image_array[@]}; do
     aria2c -x 16 -s 16 $i -c
