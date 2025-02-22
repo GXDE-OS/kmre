@@ -81,12 +81,12 @@ case $arch in
 esac
 
 # 开始构建
-set +e
+set -e
 mkdir -pv build-temp
 cd build-temp
 echo ">>>>> 安装所需基础依赖"
 sudo apt update
-sudo apt install git aria2 dpkg-dev curl -y --allow-downgrades
+sudo apt install git aria2 dpkg-dev curl fakeroot -y --allow-downgrades
 echo ">>>>> 下载 Android Image"
 for i in ${image_array[@]}; do
     aria2c -x 16 -s 16 $i -c
@@ -96,13 +96,14 @@ for i in ${kmre_git_repo[@]}; do
     repo_name=$(basename $i)
     echo ">>> 构建包 $repo_name"
     echo ">> 拉取 $repo_name 源码"
-    git clone $i --depth=1
+    git clone $i --depth=1 | true
     echo ">> 安装 $repo_name 依赖包"
     cd $repo_name
+    rm -rfv ../*dbg*.deb
     sudo apt install ../*.deb -y --allow-downgrades
     sudo apt build-dep . -y --allow-downgrades
     echo ">> 构建 $repo_name deb 包"
-    dpkg-buildpackage -b
+    dpkg-buildpackage -b -nc
     cd ..
 done
 echo ">>>>> 安装 kmre"
