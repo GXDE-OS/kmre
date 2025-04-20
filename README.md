@@ -3,7 +3,7 @@
 ## 引言
 麒麟移动运行环境，简称KMRE，旨在将丰富的Android应用生态迁移到Linux桌面操作系统上，提供桌面化的操作体验。本项目为麒麟软件维护的对KMRE支持的仓库，主要包含了Linux侧和Android侧的修改支持，其余组件直接从上游AOSP仓库拉取。  
 相比于原版的 Kmre，该 Kmre 已支持 GXDE OS/Debian，同时做出了一些改进，包括但不限于：  
-- 支持 GXDE OS 以及其他基于 Debian 12 的 Linux 发行版（默认内核或 GXDE 内核，自行编译内核需开启 binder 相关选项并合并此 patch：https://gitee.com/GXDE-OS/gxde-kernel/blob/master/patch/export-symbols-needed-by-android-drivers.patch）  
+- 支持 GXDE OS 以及其他基于 Debian 12 的 Linux 发行版（默认内核或 GXDE 内核，自行编译内核需开启 binder 相关选项并合并此 patch：https://gitee.com/GXDE-OS/gxde-kernel/blob/master/patch/export-symbols-needed-by-android-drivers.patch ）  
 - 新增支持获取 DDE/KDE 缩放比例，不再仅 UKUI 可用  
 - 生成的 .desktop文件添加X-GXDE-KMREAPP=true、X-GXDE-KMRE-PKGNAME标签以支持一键卸载安卓应用  
 - 生成的 .desktop 添加 gxme 前缀 ，避免出现与 UOS 标准包名撞车  
