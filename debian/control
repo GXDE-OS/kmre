@@ -21,7 +21,7 @@ Depends:
  kylin-kmre-manager, 
  kylin-kmre-window, 
  libkylin-kmre, 
- docker.io, 
+ docker.io | docker-ce, 
  haveged, 
  python3,
  kylin-kmre-modules-dkms,

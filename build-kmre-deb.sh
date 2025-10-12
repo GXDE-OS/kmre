@@ -27,7 +27,7 @@ fi
 # 判断发行版
 arch=$(dpkg --print-architecture)
 kernel_version=$(uname -r)
-gxde_repo_url="https://repo.gxde.top/gxde-os/bixie/"
+gxde_repo_url="https://mirrors.sdu.edu.cn/GXDE/gxde-os/bixie/"
 gxde_repo_list=$(curl "$gxde_repo_url/Packages")
 
 if [[ ! -f /usr/src/linux-headers-${kernel_version}/Module.symvers ]]; then
