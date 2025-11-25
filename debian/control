@@ -25,7 +25,8 @@ Depends:
  haveged, 
  python3,
  kylin-kmre-modules-dkms,
- kmre-apk-installer
+ kmre-apk-installer,
+ pipewire-alsa
 Section: utils
 Priority: optional
 Description: kmre.
