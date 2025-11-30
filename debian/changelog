@@ -1,11 +1,12 @@
-kmre (3.0.0.0gxde3) UNRELEASED; urgency=medium
+kmre (3.0.0.0gxde4) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
   * 依赖 kmre-apk-installer
   * 支持 docker-ce
   * 添加依赖 pipewire-alsa 以修复声音问题
+  * 修改 pulseaudio 用户在安装 kmre 后 pulseaudio 被自动移除导致系统无法播放音频的问题
 
- -- gfdgd_xi <3025613752@qq.com>  Sun, 12 Oct 2025 16:57:19 +0800
+ -- gfdgd_xi <3025613752@qq.com>  Sun, 30 Nov 2025 12:57:28 +0800
 
 kmre (3.0.0.0-0k0.6) nile; urgency=medium
 

@@ -26,7 +26,7 @@ Depends:
  python3,
  kylin-kmre-modules-dkms,
  kmre-apk-installer,
- pipewire-alsa
+ pipewire-alsa | pulseaudio
 Section: utils
 Priority: optional
 Description: kmre.
